@@ -1,0 +1,31 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   src/styles/globals.css
+   Global base styles that Tailwind doesn't cover:
+     • Google Fonts import
+     • Font-family overrides
+     • Smooth scroll behaviour
+     • Custom selection colour
+   Imported once in main.jsx, before index.css / Tailwind directives.
+───────────────────────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+/* Font assignments picked up by Tailwind's font-sans / font-serif utilities */
+.font-sans  { font-family: 'Inter', system-ui, sans-serif; }
+.font-serif { font-family: 'Playfair Display', Georgia, serif; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Brand selection highlight */
+::selection {
+  background-color: #4A3728;
+  color: #FDFBF7;
+}
+
+/* Hide scrollbar on webkit while preserving function */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d4b89680; border-radius: 3px; }
