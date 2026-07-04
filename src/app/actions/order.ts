@@ -33,7 +33,7 @@ export async function createOrder(input: CreateOrderInput) {
   // 1. Validate input with Zod
   const parsed = CreateOrderSchema.safeParse(input);
   if (!parsed.success) {
-    const firstError = parsed.error.errors[0];
+    const firstError = parsed.error.issues[0];
     return { success: false, error: firstError?.message || 'Invalid form data.' };
   }
   const data = parsed.data;
