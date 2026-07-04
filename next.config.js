@@ -7,7 +7,7 @@ const nextConfig = {
 
   images: {
     remotePatterns: [
-      // Pexels CDN (used for product/hero images)
+      // Pexels CDN (used for hero images)
       {
         protocol: 'https',
         hostname: 'images.pexels.com',
@@ -16,6 +16,15 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '*.supabase.co',
+      },
+      // Dropbox (product images)
+      {
+        protocol: 'https',
+        hostname: 'www.dropbox.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'dl.dropboxusercontent.com',
       },
     ],
   },

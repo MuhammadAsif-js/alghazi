@@ -91,11 +91,11 @@ export default function HomeClientPage({ initialProducts, initialOrdersCount }: 
             <LiveTicker count={initialOrdersCount} blip={tickerBlip} />
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold tracking-tight leading-[1.05] mb-6 text-[#1C1917]">
-              Masterfully Crafted.<br />
-              <span className="text-[#8c7462] italic font-light">Naturally Yours.</span>
+              Handcrafted.<br />
+              <span className="text-[#8c7462] italic font-light">Pure Wood. Pure Craft.</span>
             </h1>
             <p className="text-lg text-stone-500 mb-8 max-w-md font-light leading-relaxed">
-              From raw, sustainable timber to premium finished accessories. Elevate your workspace and kitchen.
+              From Quran stands to kitchen essentials — every piece is handcrafted from solid wood in our workshop. No shortcuts, no middlemen.
             </p>
             <button
               id="hero-shop-btn"

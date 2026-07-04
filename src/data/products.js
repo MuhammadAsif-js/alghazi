@@ -1,82 +1,114 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// src/data/products.js
-// HOW TO CHANGE PRODUCT IMAGES:
-//
-// OPTION A — Use your own photo files (RECOMMENDED):
-//   1. Copy your product .jpg/.png photos into:
-//      Al_ghazi/public/products/
-//   2. Replace the image value below with: '/products/your-filename.jpg'
-//   Example: image: '/products/desk-organizer.jpg',
-//
-// OPTION B — Use an online image link (e.g. from ImgBB.com or Google Drive):
-//   1. Upload your photo to https://imgbb.com (free, instant)
-//   2. Copy the "Direct link" (ends in .jpg or .png)
-//   3. Paste it as the image value below
-//   Example: image: 'https://i.ibb.co/abc123/my-product.jpg',
-//
-// HOW TO ADD A NEW PRODUCT: Copy any block below, change all 6 fields,
-// and give it the next id number (7, 8, 9...).
+// src/data/products.js  —  AL GHAZI WOOD CRAFTS Real Product Catalog
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const PRODUCTS = [
   {
-    id: 1,
-    name: 'Walnut Desk Organizer',
-    originalPrice: 10500,
-    discountedPrice: 8500,
-    // ↓ CHANGE THIS — put your photo in public/products/ or use an online link
-    image: 'https://images.pexels.com/photos/5490336/pexels-photo-5490336.jpeg?auto=compress&cs=tinysrgb&w=800',
+    id: 'quran-stand',
+    name: 'Quran Stand',
+    originalPrice: 3000,
+    discountedPrice: 2500,
+    image: 'https://www.dropbox.com/scl/fi/lcv2ys91jfqs8hw8prr6e/Gemini_Generated_Image_1ms2ic1ms2ic1ms2.png?rlkey=yh6o31bhjt5atx8y2agw9ityb&st=pzxrrsbi&raw=1',
     tag: 'Bestseller',
-    desc: 'Solid walnut wood, hand-finished with natural oils.',
+    desc: 'Beautifully handcrafted solid wood Quran stand. Perfect gift for every home.',
   },
   {
-    id: 2,
-    name: 'Premium End-Grain Chopping Block',
-    originalPrice: 18000,
-    discountedPrice: 14000,
-    // ↓ CHANGE THIS
-    image: 'https://images.pexels.com/photos/4108715/pexels-photo-4108715.jpeg?auto=compress&cs=tinysrgb&w=800',
+    id: 'lemon-juice-extractor',
+    name: 'Lemon Juice Extractor',
+    originalPrice: 450,
+    discountedPrice: 300,
+    image: 'https://www.dropbox.com/scl/fi/yoxqv7miziolt21yfa6ga/Gemini_Generated_Image_2pr5mt2pr5mt2pr5.png?rlkey=2mh5udwqfjyyrfs67n79iwmnw&st=ah55bggs&raw=1',
     tag: 'Kitchen',
-    desc: 'Professional grade end-grain oak, perfect for culinary experts.',
+    desc: 'Solid wood lemon juice extractor. Natural, chemical-free, and easy to use.',
   },
   {
-    id: 3,
-    name: 'Minimalist Laptop Stand',
-    originalPrice: 9500,
-    discountedPrice: 7500,
-    // ↓ CHANGE THIS
-    image: 'https://images.pexels.com/photos/389818/pexels-photo-389818.jpeg?auto=compress&cs=tinysrgb&w=800',
-    tag: 'Office',
-    desc: 'Ergonomic elevation crafted from sustainable ash wood.',
+    id: 'chopping-board',
+    name: 'Chopping Board',
+    originalPrice: 1200,
+    discountedPrice: 500,
+    image: 'https://www.dropbox.com/scl/fi/z3ooayovai58hc7en0qeq/Gemini_Generated_Image_4msnhy4msnhy4msn.png?rlkey=ufcl5wbqvzmy6mz770l52jzt7&st=wetnxbgk&raw=1',
+    tag: 'Kitchen',
+    desc: 'Premium solid wood chopping board. Available in Small (Rs.500), Medium (Rs.800), Large (Rs.1000).',
   },
   {
-    id: 4,
-    name: 'Artisan Spice Rack',
-    originalPrice: 12000,
-    discountedPrice: 9500,
-    // ↓ CHANGE THIS
-    image: 'https://images.pexels.com/photos/3026804/pexels-photo-3026804.jpeg?auto=compress&cs=tinysrgb&w=800',
+    id: 'allah-muhammad-name',
+    name: 'Allah Muhammad Name Plate',
+    originalPrice: 900,
+    discountedPrice: 600,
+    image: 'https://www.dropbox.com/scl/fi/cwxznlgj9520rlcx7v0wb/Gemini_Generated_Image_d9qw9bd9qw9bd9qw.png?rlkey=u7b9xmoglqe8cv3br5ms8mqb9&st=acn70tl0&raw=1',
+    tag: 'Home Decor',
+    desc: 'Elegant handcrafted wooden name plate with Allah & Muhammad (PBUH) calligraphy.',
+  },
+  {
+    id: 'roti-maker',
+    name: 'Roti Maker (Chakla Velna)',
+    originalPrice: 2500,
+    discountedPrice: 1800,
+    image: 'https://www.dropbox.com/scl/fi/5kcdllrcpca81iqkxynvf/Gemini_Generated_Image_hb6gzvhb6gzvhb6g.png?rlkey=fqglnt03cduu2atdjcelmomvl&st=k24ehqej&raw=1',
+    tag: 'Kitchen',
+    desc: 'Traditional wooden Chakla Velna set. Durable, smooth surface for perfect rotis.',
+  },
+  {
+    id: 'glass-stand',
+    name: 'Glass Stand',
+    originalPrice: 800,
+    discountedPrice: 600,
+    image: 'https://www.dropbox.com/scl/fi/26ej5ygxwcprd5co8sxin/Gemini_Generated_Image_j8c1vsj8c1vsj8c1.png?rlkey=5cxaci2jqypl7c1yz03kw6c9b&st=3glmylb3&raw=1',
     tag: 'New Arrival',
-    desc: 'Magnetic locking system for seamless kitchen organization.',
+    desc: 'Handcrafted wooden glass stand. Elegant addition to your dining table. Contact for pricing.',
   },
   {
-    id: 5,
-    name: 'Wooden Catchall Tray',
-    originalPrice: 5500,
-    discountedPrice: 4500,
-    // ↓ CHANGE THIS
-    image: 'https://images.pexels.com/photos/6686455/pexels-photo-6686455.jpeg?auto=compress&cs=tinysrgb&w=800',
-    tag: 'Everyday',
-    desc: 'Sleek geometric design for keys, wallets, and EDC.',
+    id: 'pencil-marker-keeper',
+    name: 'Pencil & Marker Keeper',
+    originalPrice: 600,
+    discountedPrice: 400,
+    image: 'https://www.dropbox.com/scl/fi/x8sg8zzsapzfhojjrzl3k/Gemini_Generated_Image_kkro38kkro38kkro-1.png?rlkey=ecis5zqqqflgn89izg4m9i98h&st=hud6giji&raw=1',
+    tag: 'Office',
+    desc: 'Solid wood pencil and marker organizer. Keeps your desk tidy and stylish.',
   },
   {
-    id: 6,
-    name: 'Ergonomic Monitor Riser',
-    originalPrice: 14000,
-    discountedPrice: 11000,
-    // ↓ CHANGE THIS
-    image: 'https://images.pexels.com/photos/5095304/pexels-photo-5095304.jpeg?auto=compress&cs=tinysrgb&w=800',
-    tag: 'Workspace',
-    desc: 'Elevate your screen and organize your desk beautifully.',
+    id: 'mobile-stand',
+    name: 'Mobile Stand',
+    originalPrice: 900,
+    discountedPrice: 600,
+    image: 'https://www.dropbox.com/scl/fi/qbegbps5z5q9t8qks9b58/Gemini_Generated_Image_l1yw33l1yw33l1yw.png?rlkey=fzjxw5ckjcj33lpu3wbdudmz9&st=f7ndz9bm&raw=1',
+    tag: 'Office',
+    desc: 'Elegant wooden mobile stand. Perfect for your desk, kitchen, or bedside table.',
+  },
+  {
+    id: 'tissue-paper-roller',
+    name: 'Tissue Paper Roller',
+    originalPrice: 600,
+    discountedPrice: 300,
+    image: 'https://www.dropbox.com/scl/fi/i314rzzvcwwq5ovfnwlov/Gemini_Generated_Image_oe5q8toe5q8toe5q.png?rlkey=sl2owgcwfukg5bl9ehf513qin&st=d99mp87y&raw=1',
+    tag: 'Kitchen',
+    desc: 'Wooden tissue paper roller holder. Available in Medium (Rs.300) and Large (Rs.500).',
+  },
+  {
+    id: 'knife-stand',
+    name: 'Knife Stand',
+    originalPrice: 1000,
+    discountedPrice: 300,
+    image: 'https://www.dropbox.com/scl/fi/oyyqy7dj9xer5e7f5yaol/Gemini_Generated_Image_ukejkzukejkzukej.png?rlkey=s27blau6kosdw4w9p8lyfxovt&st=scnjg8lj&raw=1',
+    tag: 'Kitchen',
+    desc: 'Solid wood knife stand. Keeps your knives safe and your kitchen organised. Small Rs.300 | Medium Rs.500 | Large Rs.800.',
+  },
+  {
+    id: 'wooden-calendar',
+    name: 'Wooden Calendar',
+    originalPrice: 3500,
+    discountedPrice: 2500,
+    image: 'https://www.dropbox.com/scl/fi/wa4qfffh1vwxqvz41fthe/Gemini_Generated_Image_yk6f35yk6f35yk6f.png?rlkey=f7nkj5gfs1e3unjwpviha8lsi&st=xx9vuhj0&raw=1',
+    tag: 'Home Decor',
+    desc: 'Timeless handcrafted wooden perpetual calendar. A unique decor piece for any room.',
+  },
+  {
+    id: 'cup-stand',
+    name: 'Cup Stand',
+    originalPrice: 700,
+    discountedPrice: 500,
+    image: 'https://www.dropbox.com/scl/fi/kqwx6xaj4ooqtb6arkybw/Gemini_Generated_Image_z4xou5z4xou5z4xo.png?rlkey=zdta3rvvkvyfic3bwfbpg2a9k&st=8cvlf4tw&raw=1',
+    tag: 'Kitchen',
+    desc: 'Elegant wooden cup stand. Holds multiple cups neatly on your kitchen counter.',
   },
 ];
