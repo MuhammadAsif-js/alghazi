@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
+import { useCart } from '../context/CartContext';
 
 const WHATSAPP_NUMBER = '923084382626';
 
@@ -13,6 +14,12 @@ interface NavbarProps {
 
 export default function Navbar({ isScrolled }: NavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const { cartCount } = useCart();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -59,14 +66,23 @@ export default function Navbar({ isScrolled }: NavbarProps) {
               >
                 Track Order
               </Link>
-              <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/contact"
                 className="bg-[#1C1917] text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-md hover:bg-[#4A3728] transition-colors"
               >
                 Contact Us
-              </a>
+              </Link>
+              <Link
+                href="/cart"
+                className="relative text-[#1C1917] hover:text-stone-600 transition-colors p-2"
+              >
+                <ShoppingCart size={24} />
+                {mounted && cartCount > 0 && (
+                  <span className="absolute top-0 right-0 bg-rose-500 text-white text-[10px] font-bold w-5 h-5 flex items-center justify-center rounded-full transform translate-x-1 -translate-y-1">
+                    {cartCount}
+                  </span>
+                )}
+              </Link>
             </div>
 
             {/* Hamburger */}
@@ -103,6 +119,25 @@ export default function Navbar({ isScrolled }: NavbarProps) {
               className="text-left text-lg font-bold p-2 border-b border-stone-100"
             >
               Track Order
+            </Link>
+            <Link
+              href="/contact"
+              onClick={() => setMobileOpen(false)}
+              className="text-left text-lg font-bold p-2 border-b border-stone-100"
+            >
+              Contact Us
+            </Link>
+            <Link
+              href="/cart"
+              onClick={() => setMobileOpen(false)}
+              className="text-left text-lg font-bold p-2 border-b border-stone-100 flex items-center justify-between"
+            >
+              <span>Cart</span>
+              {mounted && cartCount > 0 && (
+                <span className="bg-rose-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                  {cartCount}
+                </span>
+              )}
             </Link>
             <a
               href={`https://wa.me/${WHATSAPP_NUMBER}`}

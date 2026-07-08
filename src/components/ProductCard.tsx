@@ -1,8 +1,9 @@
 'use client';
 
 import { motion, Variants } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ShoppingCart } from 'lucide-react';
 import Link from 'next/link';
+import { useCart } from '../context/CartContext';
 
 export const cardVariant: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -24,13 +25,19 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const { addToCart } = useCart();
+
   return (
     <motion.div
       variants={cardVariant}
       className="group flex flex-col relative h-full"
     >
       {/* ── Product image ──────────────────────────────────────────────────── */}
-      <div className="relative aspect-[4/5] bg-stone-200 rounded-[2rem] overflow-hidden mb-6 shadow-sm group-hover:shadow-2xl transition-all duration-700">
+      <Link 
+        href={`/product/${product.id}`} 
+        target="_blank"
+        className="relative aspect-[4/5] bg-stone-200 rounded-[2rem] overflow-hidden mb-6 shadow-sm group-hover:shadow-2xl transition-all duration-700 block cursor-pointer"
+      >
         {/* Hover overlay */}
         <div className="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-500 z-10" />
 
@@ -46,7 +53,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1.5s] ease-out"
         />
-      </div>
+      </Link>
 
       {/* ── Product info ───────────────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col px-2">
@@ -66,13 +73,27 @@ export default function ProductCard({ product }: ProductCardProps) {
 
         <p className="text-sm text-stone-500 mb-6">{product.desc}</p>
 
-        <Link
-          id={`buy-now-${product.id}`}
-          href={`/checkout/${product.id}`}
-          className="mt-auto w-full bg-white border border-stone-200 text-[#1C1917] py-4 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-[#1C1917] hover:border-[#1C1917] hover:text-white transition-all shadow-sm"
-        >
-          Buy Now <ArrowRight size={16} />
-        </Link>
+        <div className="mt-auto grid grid-cols-2 gap-3">
+          <button
+            onClick={() => addToCart({
+              id: product.id,
+              name: product.name,
+              price: product.discountedPrice,
+              image: product.image,
+            })}
+            className="w-full bg-white border border-[#1C1917] text-[#1C1917] py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-stone-50 transition-all shadow-sm text-sm"
+          >
+            <ShoppingCart size={16} /> Cart
+          </button>
+          
+          <Link
+            id={`buy-now-${product.id}`}
+            href={`/checkout/${product.id}`}
+            className="w-full bg-[#1C1917] border border-[#1C1917] text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-[#4A3728] hover:border-[#4A3728] transition-all shadow-sm text-sm"
+          >
+            Buy Now <ArrowRight size={16} />
+          </Link>
+        </div>
       </div>
     </motion.div>
   );

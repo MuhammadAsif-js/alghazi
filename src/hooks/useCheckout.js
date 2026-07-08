@@ -1,5 +1,5 @@
 import { useState, useCallback, useMemo } from 'react';
-import { getDeliveryFee, getDeliveryMessage } from '../data/locations';
+import { calcShipping } from '../utils/pricing';
 import { getPaymentBreakdown } from '../data/payment';
 
 const initialFormState = {
@@ -71,8 +71,8 @@ export function useCheckout() {
   );
 
   const deliveryFee = useMemo(
-    () => getDeliveryFee(formData.province, subtotal),
-    [formData.province, subtotal]
+    () => calcShipping(formData.province, formData.paymentMethod, subtotal),
+    [formData.province, formData.paymentMethod, subtotal]
   );
 
   const total = useMemo(() => subtotal + deliveryFee, [subtotal, deliveryFee]);
@@ -83,8 +83,8 @@ export function useCheckout() {
   );
 
   const deliveryMessage = useMemo(
-    () => getDeliveryMessage(formData.province, subtotal),
-    [formData.province, subtotal]
+    () => deliveryFee === 0 ? "Free Shipping to Punjab" : "Standard Shipping applied",
+    [deliveryFee]
   );
 
   const isFreeDelivery = deliveryFee === 0 && !!formData.province;

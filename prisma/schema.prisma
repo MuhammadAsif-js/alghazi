@@ -81,11 +81,16 @@ model Product {
 }
 
 model Order {
-  id              String      @id @default(cuid())
-  orderNumber     String      @unique // E.g., AGW-10023
-  status          OrderStatus @default(PENDING)
+  id              String        @id @default(cuid())
+  orderNumber     String        @unique // E.g., AGW-10023
+  status          OrderStatus   @default(PENDING)
   totalAmount     Int
-  
+  discountApplied Int           @default(0)  // PKR amount discounted (for advance orders)
+
+  // Payment
+  paymentMethod   PaymentMethod @default(ADVANCE)
+  paymentStatus   PaymentStatus @default(UNPAID)
+
   // Customer Info
   customerName    String
   customerPhone   String
@@ -121,4 +126,16 @@ enum OrderStatus {
   SHIPPED
   DELIVERED
   CANCELLED
+}
+
+enum PaymentMethod {
+  ADVANCE
+  COD
+}
+
+enum PaymentStatus {
+  UNPAID
+  PARTIAL_ADVANCE
+  FULL_ADVANCE
+  PAID
 }

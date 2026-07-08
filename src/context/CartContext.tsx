@@ -1,9 +1,11 @@
+'use client';
+
 import { createContext, useContext } from 'react';
 import { useCheckout } from '../hooks/useCheckout';
 
-const CartContext = createContext(null);
+const CartContext = createContext<any>(null);
 
-export function CartProvider({ children }) {
+export function CartProvider({ children }: { children: React.ReactNode }) {
   const checkout = useCheckout();
   return (
     <CartContext.Provider value={checkout}>{children}</CartContext.Provider>

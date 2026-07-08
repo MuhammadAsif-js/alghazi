@@ -1,25 +1,39 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // src/utils/pricing.js
 // All business-logic math lives here — pure functions, zero side-effects.
-// Unit-testable in isolation. Import individual functions wherever needed.
 // ─────────────────────────────────────────────────────────────────────────────
+
+/** COD handling fee in PKR */
+export const COD_FEE = 250;
+
+/** Advance discount rate: 7% */
+export const ADVANCE_DISCOUNT_RATE = 0.07;
+
+/**
+ * Returns the PKR discount for advance payment orders.
+ * @param {number} subtotal - Product price (before shipping)
+ * @returns {number}
+ */
+export function calcAdvanceDiscount(subtotal) {
+  return Math.round(subtotal * ADVANCE_DISCOUNT_RATE);
+}
 
 /**
  * Calculates the shipping cost for an order.
  *
  * Rules:
- *  - Punjab + full-payment + subtotal ≥ 2500  → PKR 0 (free)
- *  - Everything else                           → PKR 300
+ *  - Punjab + advance payment + subtotal ≥ 2500  → PKR 0 (free)
+ *  - Everything else                              → PKR 300
  *
- * @param {string}  province     - Selected province (e.g. "Punjab")
- * @param {string}  paymentMode  - "advance" | "full"
- * @param {number}  subtotal     - Product discounted price in PKR
+ * @param {string} province
+ * @param {string} paymentMode  - "advance" | "cod"
+ * @param {number} subtotal     - Product discounted price in PKR
  * @returns {number}
  */
 export function calcShipping(province, paymentMode, subtotal) {
   const isFreeEligible =
     province === 'Punjab' &&
-    paymentMode === 'full' &&
+    paymentMode === 'advance' &&
     subtotal >= 2500;
 
   return isFreeEligible ? 0 : 300;
@@ -28,16 +42,26 @@ export function calcShipping(province, paymentMode, subtotal) {
 /**
  * Returns the full payment breakdown for an order.
  *
- * @param {number} subtotal     - Product price
- * @param {number} shipping     - Shipping fee (use calcShipping)
- * @param {string} paymentMode  - "advance" | "full"
- * @returns {{ total: number, advance: number, cod: number }}
+ * For ADVANCE: apply 7% discount to subtotal, then add shipping.
+ * For COD:     add standard shipping + PKR 250 COD fee.
+ *
+ * @param {number} subtotal     - Product price (discountedPrice from DB)
+ * @param {number} shipping     - Shipping fee from calcShipping()
+ * @param {string} paymentMode  - "advance" | "cod"
+ * @returns {{ discountApplied: number, total: number, advance: number, cod: number }}
  */
 export function calcBreakdown(subtotal, shipping, paymentMode) {
-  const total   = subtotal + shipping;
-  const advance = paymentMode === 'full' ? total : Math.round(total * 0.25);
-  const cod     = total - advance;
-  return { total, advance, cod };
+  if (paymentMode === 'advance') {
+    const discountApplied = calcAdvanceDiscount(subtotal);
+    const discountedSubtotal = subtotal - discountApplied;
+    const total = discountedSubtotal + shipping;
+    return { discountApplied, total, advance: total, cod: 0 };
+  }
+
+  // COD
+  const codFee = COD_FEE;
+  const total = subtotal + shipping + codFee;
+  return { discountApplied: 0, total, advance: 0, cod: total };
 }
 
 /**

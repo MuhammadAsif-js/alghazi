@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Truck, Banknote, ShieldCheck, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -50,6 +50,8 @@ const LiveTicker = ({ count, blip }: { count: number; blip: boolean }) => (
 export default function HomeClientPage({ initialProducts, initialOrdersCount }: HomeClientPageProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [tickerBlip, setTickerBlip] = useState(false);
+  const [liveCount, setLiveCount] = useState(initialOrdersCount);
+  const esRef = useRef<EventSource | null>(null);
 
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 1000], [0, 250]);
@@ -59,14 +61,29 @@ export default function HomeClientPage({ initialProducts, initialOrdersCount }: 
     const onScroll = () => setIsScrolled(window.scrollY > 30);
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    const interval = setInterval(() => {
+    // ── SSE real-time order counter ──────────────────────────────────────
+    esRef.current = new EventSource('/api/orders/count');
+    esRef.current.onmessage = (e) => {
+      try {
+        const { count } = JSON.parse(e.data);
+        if (count !== liveCount) {
+          setLiveCount(count);
+          setTickerBlip(true);
+          setTimeout(() => setTickerBlip(false), 1200);
+        }
+      } catch {}
+    };
+
+    // Periodic blip animation even when count doesn't change
+    const blipInterval = setInterval(() => {
       setTickerBlip(true);
       setTimeout(() => setTickerBlip(false), 1000);
-    }, 6000);
+    }, 8000);
 
     return () => {
       window.removeEventListener('scroll', onScroll);
-      clearInterval(interval);
+      esRef.current?.close();
+      clearInterval(blipInterval);
     };
   }, []);
 
@@ -88,7 +105,7 @@ export default function HomeClientPage({ initialProducts, initialOrdersCount }: 
             transition={{ duration: 1 }}
             className="lg:col-span-5 z-10"
           >
-            <LiveTicker count={initialOrdersCount} blip={tickerBlip} />
+            <LiveTicker count={liveCount} blip={tickerBlip} />
 
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold tracking-tight leading-[1.05] mb-6 text-[#1C1917]">
               Handcrafted.<br />

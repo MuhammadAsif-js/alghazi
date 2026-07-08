@@ -66,6 +66,18 @@ CREATE TABLE IF NOT EXISTS "VerificationToken" (
   UNIQUE("identifier", "token")
 );
 
+DO $$ BEGIN
+  CREATE TYPE "PaymentMethod" AS ENUM ('ADVANCE', 'COD');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+  CREATE TYPE "PaymentStatus" AS ENUM ('UNPAID', 'PARTIAL_ADVANCE', 'FULL_ADVANCE', 'PAID');
+EXCEPTION
+  WHEN duplicate_object THEN null;
+END $$;
+
 -- ──────────────────────────────────────────────────────────────
 -- E-COMMERCE TABLES
 -- ──────────────────────────────────────────────────────────────
@@ -84,21 +96,30 @@ CREATE TABLE IF NOT EXISTS "Product" (
 );
 
 CREATE TABLE IF NOT EXISTS "Order" (
-  "id"            TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
-  "orderNumber"   TEXT UNIQUE NOT NULL,
-  "status"        "OrderStatus" NOT NULL DEFAULT 'PENDING',
-  "totalAmount"   INTEGER NOT NULL,
-  "customerName"  TEXT NOT NULL,
-  "customerPhone" TEXT NOT NULL,
-  "customerEmail" TEXT,
-  "province"      TEXT NOT NULL,
-  "district"      TEXT NOT NULL,
-  "tehsil"        TEXT NOT NULL,
-  "city"          TEXT NOT NULL,
-  "addressLine"   TEXT NOT NULL,
-  "createdAt"     TIMESTAMP NOT NULL DEFAULT NOW(),
-  "updatedAt"     TIMESTAMP NOT NULL DEFAULT NOW()
+  "id"              TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
+  "orderNumber"     TEXT UNIQUE NOT NULL,
+  "status"          "OrderStatus"   NOT NULL DEFAULT 'PENDING',
+  "totalAmount"     INTEGER NOT NULL,
+  "discountApplied" INTEGER NOT NULL DEFAULT 0,
+  "paymentMethod"   "PaymentMethod" NOT NULL DEFAULT 'ADVANCE',
+  "paymentStatus"   "PaymentStatus" NOT NULL DEFAULT 'UNPAID',
+  "customerName"    TEXT NOT NULL,
+  "customerPhone"   TEXT NOT NULL,
+  "customerEmail"   TEXT,
+  "province"        TEXT NOT NULL,
+  "district"        TEXT NOT NULL,
+  "tehsil"          TEXT NOT NULL,
+  "city"            TEXT NOT NULL,
+  "addressLine"     TEXT NOT NULL,
+  "createdAt"       TIMESTAMP NOT NULL DEFAULT NOW(),
+  "updatedAt"       TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+-- ── Safe migration: add new columns if the table already exists ──────────────
+-- (Run these if your Order table was created without the new columns)
+ALTER TABLE "Order" ADD COLUMN IF NOT EXISTS "discountApplied" INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE "Order" ADD COLUMN IF NOT EXISTS "paymentMethod"   "PaymentMethod" NOT NULL DEFAULT 'ADVANCE';
+ALTER TABLE "Order" ADD COLUMN IF NOT EXISTS "paymentStatus"   "PaymentStatus" NOT NULL DEFAULT 'UNPAID';
 
 CREATE TABLE IF NOT EXISTS "OrderItem" (
   "id"              TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
@@ -107,6 +128,7 @@ CREATE TABLE IF NOT EXISTS "OrderItem" (
   "quantity"        INTEGER NOT NULL,
   "priceAtPurchase" INTEGER NOT NULL
 );
+
 
 -- ──────────────────────────────────────────────────────────────
 -- INDEXES for performance
