@@ -2,6 +2,17 @@
 const nextConfig = {
   reactStrictMode: true,
 
+  // Allow Server Actions from GitHub Codespaces
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        'localhost:3000',
+        '*.app.github.dev', // Allows any Codespace domain
+        'crispy-adventure-gg4x5j599xj397j6-3000.app.github.dev' // Your specific current domain
+      ],
+    },
+  },
+
   // Remove X-Powered-By header for security
   poweredByHeader: false,
 
